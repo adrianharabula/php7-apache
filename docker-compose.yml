@@ -1,0 +1,10 @@
+version: '2.0'
+
+services:
+  restapi:
+    build:
+      context: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "localhost:8090:80"
