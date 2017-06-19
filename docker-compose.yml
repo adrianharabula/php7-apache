@@ -1,10 +1,38 @@
 version: '2.0'
 
 services:
-  restapi:
+  app:
     build:
-      context: .
+      context: Dockerfiles/php
+    image: php7-apache
+    links:
+      - mariadb:db
     volumes:
-      - ./:/var/www/html
+      - "./:/var/www/"
     ports:
-      - "localhost:8090:80"
+      - "0.0.0.0:80:80"
+
+  mariadb:
+    image: mariadb:10.1
+    environment:
+     - MYSQL_ROOT_PASSWORD=toor
+     - MYSQL_DATABASE=mydb
+    # volumes:
+    #  - ./Dockerfiles/mariadb/scripts:/docker-entrypoint-initdb.d
+    #  - ./Dockerfiles/mariadb/database:/var/lib/mysql
+    ports:
+     - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mariadb:db
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=toor
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - /sessions
