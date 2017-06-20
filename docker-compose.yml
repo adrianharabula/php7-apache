@@ -4,11 +4,11 @@ services:
   app:
     build:
       context: Dockerfiles/php
-    image: php7-apache
+    image: adrianharabula/php7
     links:
       - mariadb:db
     volumes:
-      - "./:/var/www/"
+      - "./www/:/var/www/"
     ports:
       - "0.0.0.0:80:80"
 
@@ -16,9 +16,12 @@ services:
     image: mariadb:10.1
     environment:
      - MYSQL_ROOT_PASSWORD=toor
+    #  - MYSQL_RANDOM_ROOT_PASSWORD=yes
      - MYSQL_DATABASE=mydb
+    #  - MYSQL_USER=user
+    #  - MYSQL_PASSWORD=pass
     # volumes:
-    #  - ./Dockerfiles/mariadb/scripts:/docker-entrypoint-initdb.d
+     - ./Dockerfiles/mariadb/scripts:/docker-entrypoint-initdb.d
     #  - ./Dockerfiles/mariadb/database:/var/lib/mysql
     ports:
      - "3306:3306"
