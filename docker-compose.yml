@@ -15,12 +15,12 @@ services:
   mariadb:
     image: mariadb:10.1
     environment:
-     - MYSQL_ROOT_PASSWORD=toor
-    #  - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    #  - MYSQL_ROOT_PASSWORD=toor
+     - MYSQL_RANDOM_ROOT_PASSWORD=yes
      - MYSQL_DATABASE=mydb
-    #  - MYSQL_USER=user
-    #  - MYSQL_PASSWORD=pass
-    # volumes:
+     - MYSQL_USER=user
+     - MYSQL_PASSWORD=pass
+    volumes:
      - ./Dockerfiles/mariadb/scripts:/docker-entrypoint-initdb.d
     #  - ./Dockerfiles/mariadb/database:/var/lib/mysql
     ports:
@@ -32,8 +32,8 @@ services:
       - mariadb:db
     environment:
       - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=toor
+      - PMA_USER=user
+      - PMA_PASSWORD=pass
     restart: always
     ports:
       - 8080:80
